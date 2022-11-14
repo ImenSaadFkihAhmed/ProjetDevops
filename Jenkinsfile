@@ -6,8 +6,8 @@ pipeline {
                    
                 steps{
                         echo 'Pulling...';
-                        git branch: 'houssem',
-                        url : 'https://github.com/MohamedAzizMaamar/DevOps.git';
+                        git branch: 'haythem',
+                        url : 'https://github.com/haythem225/Devops_2022.git';
                     }
                 }
        
@@ -32,7 +32,7 @@ pipeline {
         }
          stage('SonarQube analysis 1') {
             steps {
-                sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=admin1'
+                sh 'mvn sonar:sonar -Dsonar.login=admin1 -Dsonar.password=admin1'
             }
         }
         stage('JUnit and Mockito Test'){
