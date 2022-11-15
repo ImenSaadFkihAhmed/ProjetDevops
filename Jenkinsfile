@@ -30,6 +30,11 @@ pipeline {
                  
             }
         }
+         stage('plugin') {
+            steps {
+                sh 'mvn clean install sonar:sonar -Dsonar.java.binaries=**/*.java'
+            }
+        }
          stage('SonarQube analysis 1') {
             steps {
                 sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=admin1'
