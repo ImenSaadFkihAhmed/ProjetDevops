@@ -66,6 +66,11 @@ pipeline {
 				sh 'docker push haythemselmi225/achat'
 			}
 		}
+		stage('Run app With DockerCompose') {
+              steps {
+                  sh "docker-compose -f docker-compose.yml up -d  "
+              }
+              }
 		stage('NEXUS') {
             steps {
                 sh 'mvn deploy -DskipTests'
@@ -73,11 +78,7 @@ pipeline {
             }
         }
         
-       stage('Run app With DockerCompose') {
-              steps {
-                  sh "docker-compose -f docker-compose.yml up -d  "
-              }
-              }
+       
         
        
        stage('SonarQube analysis 1') {
