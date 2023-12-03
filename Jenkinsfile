@@ -6,8 +6,8 @@ pipeline {
                    
                 steps{
                         echo 'Pulling...';
-                        git branch: 'haythem',
-                        url : 'https://github.com/haythem225/Devops_2022.git';
+                        git branch: 'main',
+                        url : 'https://github.com/ImenSaadFkihAhmed/ProjetDevops.git';
                     }
                 }
        
@@ -50,20 +50,20 @@ pipeline {
         stage('Docker build')
         {
             steps {
-                 sh 'docker build -t haythemselmi225/achat  .'
+                 sh 'docker build -t imensaadfkihahmed/achat  .'
             }
         }
         stage('Docker login')
         {
             steps {
-                sh 'echo $dockerhub_PSW | docker login -u haythemselmi225 -p dckr_pat_ymzZdQEMH4x6PDhrnaiPfvSRrYY'
+                sh 'echo $dockerhub_PSW | docker login -u imensaadfkihahmed -p cheymouna'
             }    
        
         }
       stage('Push') {
 
 			steps {
-				sh 'docker push haythemselmi225/achat'
+				sh 'docker push imensaadfkihahmed/achat'
 			}
 		}
 		stage('Run app With DockerCompose') {
@@ -71,7 +71,8 @@ pipeline {
                   sh "docker-compose -f docker-compose.yml up -d  "
               }
               }
-		stage('NEXUS') {
+		
+        stage('NEXUS') {
             steps {
                 sh 'mvn deploy -DskipTests'
                   
@@ -83,8 +84,9 @@ pipeline {
        
        stage('SonarQube analysis 1') {
             steps {
-                sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=admin1'
+                sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=cheymouna'
             }
         }
+
     }
 }
