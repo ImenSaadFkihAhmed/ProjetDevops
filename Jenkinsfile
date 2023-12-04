@@ -30,11 +30,22 @@ pipeline {
                  
             }
         }
-         
+
+	pipeline {
+    agent {
+        docker { image 'maven:latest' }
+    }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+        
         stage('JUnit and Mockito Test'){
             steps{
                 script
-                {
+                {sh 'docker run -d --name=mysql-container -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=testdb -p 3306:3306 mysql:latest'
                     if (isUnix())
                     {
                         sh 'mvn --batch-mode test'
@@ -43,6 +54,8 @@ pipeline {
                     {
                         bat 'mvn --batch-mode test'
                     }
+		 sh 'docker stop mysql-container'
+                 sh 'docker rm mysql-container'
                 }
             }
              post {
