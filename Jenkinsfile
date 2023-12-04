@@ -29,7 +29,7 @@ pipeline {
         stage('JUnit and Mockito Test') {
             steps {
                 script {
-                    sh 'docker run -d --name=mysql-container -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=testdb -p 3306:3306 mysql:latest'
+                    sh 'docker run -d --name=mysql-container -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=tpachato -p 3306:3306 mysql:latest'
                     if (isUnix()) {
                         sh 'mvn --batch-mode test'
                     } else {
