@@ -23,20 +23,20 @@ pipeline {
         stage('Mvn Compile') {
             steps {
                 sh 'mvn compile'
+               sh' mvn spring-boot:run'
             }
         }
 
         stage('JUnit and Mockito Test') {
             steps {
                 script {
-                    sh 'docker run -d --name=mysql-container -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=tpachato -p 3306:3306 mysql:latest'
+                    
                     if (isUnix()) {
                         sh 'mvn --batch-mode test'
                     } else {
                         bat 'mvn --batch-mode test'
                     }
-                    sh 'docker stop mysql-container'
-                    sh 'docker rm mysql-container'
+                   
                 }
             }
             post {
