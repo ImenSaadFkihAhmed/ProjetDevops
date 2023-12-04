@@ -45,6 +45,16 @@ pipeline {
                     }
                 }
             }
+             post {
+        always {
+            junit '**/target/surefire-reports/*.xml'
+        }
+    }
+        }
+        stage('SonarQube analysis 1') {
+            steps {
+                sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=cheymouna'
+            }
         }
         
         stage('Docker build')
@@ -60,7 +70,7 @@ pipeline {
             }    
        
         }
-      stage('Push') {
+      stage('Docker hub Push') {
 
 			steps {
 				sh 'docker push imensaadfkihahmed/achat'
@@ -71,22 +81,19 @@ pipeline {
                   sh "docker-compose -f docker-compose.yml up -d  "
               }
               }
-		
-        stage('NEXUS') {
-            steps {
-                sh 'mvn deploy -DskipTests'
-                  
-            }
-        }
+
         
        
         
        
-       stage('SonarQube analysis 1') {
-            steps {
-                sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=cheymouna'
+       
+         stage('Deploy to k8s'){
+            steps{
+                script{
+                    kubernetesDeploy (configs: 'kubernets.yaml',kubeconfigId: 'k8sconfigpwd')
+                }
             }
-        }
+         }
 
     }
 }
