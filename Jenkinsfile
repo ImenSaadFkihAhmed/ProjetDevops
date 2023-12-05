@@ -32,7 +32,7 @@ pipeline {
                         sh "mvn verify sonar:sonar -Dsonar.projectKey=Projet-Devops -Dsonar.projectName=Projet-Devops -Dsonar.host.url=http://192.168.182.135:9000"
                 }
                             
-                }
+                
                         
                     }
                 }
