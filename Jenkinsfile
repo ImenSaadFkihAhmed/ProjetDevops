@@ -26,7 +26,16 @@ pipeline {
                sh' mvn spring-boot:run'
             }
         }
-
+         stage("SonarQube Analysis") {
+                    steps {
+                        script {
+                            gv.sonarScan(sonarServer: 'sonar_6',
+                        projectKey: 'Projet-Devops',
+                        projectName:'Projet-Devops'
+                                        )
+                        }
+                    }
+                }
         stage('JUnit and Mockito Test') {
             steps {
                 script {
@@ -46,11 +55,7 @@ pipeline {
             }
         }
 
-        stage('SonarQube analysis 1') {
-            steps {
-                sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=cheymouna'
-            }
-        }
+       
 
         stage('Docker build') {
             steps {
