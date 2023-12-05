@@ -28,12 +28,11 @@ pipeline {
         }
          stage("SonarQube Analysis") {
                     steps {
-                        script {
-                            gv.sonarScan(sonarServer: 'sonar_6',
-                        projectKey: 'Projet-Devops',
-                        projectName:'Projet-Devops'
-                                        )
-                        }
+                        
+                            withSonarQubeEnv('sonar_6') {
+                    sh 'mvn sonar:sonar'
+                }
+                        
                     }
                 }
         stage('JUnit and Mockito Test') {
