@@ -26,7 +26,16 @@ pipeline {
                
             }
         }
-         stage("SonarQube Analysis") {
+      
+
+       
+
+        stage('Docker build') {
+            steps {
+                sh 'docker build -t imensaadfkihahmed/achat  .'
+            }
+        }
+   stage("SonarQube Analysis") {
                     steps {
                          withSonarQubeEnv('SonarQube') {
                         sh "mvn verify sonar:sonar -Dsonar.projectKey=Projet-Devops -Dsonar.projectName=Projet-Devops -Dsonar.host.url=http://192.168.182.135:9000"
@@ -35,7 +44,7 @@ pipeline {
                 
                         
                     }
-                }
+          
         stage('JUnit and Mockito Test') {
             steps {
                 script {
@@ -53,16 +62,8 @@ pipeline {
                     junit '**/target/surefire-reports/*.xml'
                 }
             }
-        }
-
-       
-
-        stage('Docker build') {
-            steps {
-                sh 'docker build -t imensaadfkihahmed/achat  .'
-            }
-        }
-
+        }       }
+        
         stage('Docker login') {
             steps {
                 sh 'echo $dockerhub_PSW | docker login -u imensaadfkihahmed -p cheymouna'
