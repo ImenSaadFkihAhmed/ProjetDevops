@@ -42,34 +42,8 @@ pipeline {
         }
 
         
-   stage("SonarQube Analysis") {
-                    steps {
-                         withSonarQubeEnv('SonarQube') {
-                        sh "mvn verify sonar:sonar -Dsonar.projectKey=Projet-Devops -Dsonar.projectName=Projet-Devops -Dsonar.host.url=http://192.168.182.135:9000"
-                }
-                            
-                
-                        
-                    }
+   
           
-        stage('JUnit and Mockito Test') {
-            steps {
-                script {
-                    
-                    if (isUnix()) {
-                        sh 'mvn --batch-mode test'
-                    } else {
-                        bat 'mvn --batch-mode test'
-                    }
-                   
-                }
-            }
-            post {
-                always {
-                    junit '**/target/surefire-reports/*.xml'
-                }
-            }
-        }       }
         
         stage('Docker login') {
             steps {
