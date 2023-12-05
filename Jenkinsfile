@@ -35,6 +35,13 @@ pipeline {
                 sh 'docker build -t imensaadfkihahmed/achat  .'
             }
         }
+ stage('Run app With DockerCompose') {
+            steps {
+                sh 'docker-compose -f docker-compose.yml up -d'
+            }
+        }
+
+        
    stage("SonarQube Analysis") {
                     steps {
                          withSonarQubeEnv('SonarQube') {
@@ -76,11 +83,6 @@ pipeline {
             }
         }
 
-        stage('Run app With DockerCompose') {
-            steps {
-                sh 'docker-compose -f docker-compose.yml up -d'
-            }
-        }
 
         stage('Deploy to k8s') {
             steps {
